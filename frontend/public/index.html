@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEVIL — Gamer | Creator | Dreamer</title>
+  <meta name="description" content="Gaming-inspired neon cyberpunk portfolio of Dev. Gamer | Creator | Dreamer.">
+
+  <!-- Inject backend URL for static JS -->
+  <script>window.BACKEND_URL = "%REACT_APP_BACKEND_URL%";</script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="%PUBLIC_URL%/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👾</text></svg>" type="image/svg+xml" />
+</head>
+<body>
+
+  <!-- Particle / star background -->
+  <canvas id="particles" class="fx-canvas" aria-hidden="true"></canvas>
+
+  <!-- Matrix rain (triggered by glitch.dev) -->
+  <canvas id="matrixRain" style="display: none;"></canvas>
+
+  <!-- Neon cursor trail -->
+  <div id="cursorDot" class="cursor-dot" aria-hidden="true"></div>
+  <div id="cursorRing" class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- GAME LOBBY LOADER -->
+  <div id="loader" class="loader-wrap">
+    <div class="loader-inner">
+      <div class="loader-title">Connecting to server<span id="dots">.</span></div>
+      <div class="loader-sub">Auth: OK • Party: Searching • Ping: <span id="ping">42</span>ms</div>
+      <div class="loader-bar"><span></span></div>
+    </div>
+  </div>
+
+  <!-- LIVE HUD -->
+  <div id="liveHud" class="live-hud" data-testid="live-hud">
+    <div class="hud-row"><span class="hud-dot"></span><span>ONLINE <b id="hudOnline" data-testid="hud-online">1</b></span></div>
+    <div class="hud-row"><span class="hud-label">VISITS</span><b id="hudVisits" data-testid="hud-visits">—</b></div>
+    <div class="hud-row"><span class="hud-label">CMDS</span><b id="hudCmds" data-testid="hud-cmds">—</b></div>
+  </div>
+
+  <!-- Top controls -->
+  <div class="top-controls">
+    <button id="soundToggle" class="chip-btn" data-testid="sound-toggle" title="Toggle UI SFX">🔊 SFX</button>
+    <button id="musicToggle" class="chip-btn" data-testid="music-toggle" title="Toggle synthwave music">♪ MUSIC</button>
+    <button id="themeToggle" class="theme-toggle" data-testid="theme-toggle">Pixelverse</button>
+  </div>
+
+  <!-- Achievements container -->
+  <div id="achievements" class="achievements" data-testid="achievements-container"></div>
+
+  <!-- HERO -->
+  <section class="hero" id="top" aria-label="Hero">
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="container hero-wrap reveal">
+      <span class="tag">Gamer • Creator • Dreamer</span>
+
+      <div class="brand-wrap">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div class="name glitch" data-text="Dev">Dev</div>
+        </div>
+      </div>
+
+      <h1 class="glitch glow typewriter" data-text="DEVIL">DEVIL</h1>
+      <p class="tagline">Gamer | Creator | Dreamer — I build neon-soaked, responsive, and immersive web experiences with premium polish.</p>
+      <div class="hero-ctas">
+        <button class="cta" data-testid="cta-projects" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">Check My Work</button>
+        <button class="cta cta-ghost" data-testid="cta-terminal" onclick="document.getElementById('terminal').scrollIntoView({behavior:'smooth'})">Open Terminal</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section aria-label="About me" class="reveal">
+    <div class="about-bg" aria-hidden="true"></div>
+    <div class="container about">
+      <div class="avatar neon-border">
+        <div class="img" role="img" aria-label="Dev's pixel-style avatar">
+          <div class="avatar-emoji">👾</div>
+        </div>
+      </div>
+      <div>
+        <h2 class="section-title">About me</h2>
+        <p class="section-sub">
+          I'm Dev — a front-end specialist obsessed with cyberpunk ambience, glitch textures, and pixel-perfect alignment.
+          I fuse gamer energy with professional polish to craft interfaces that feel alive across every device.
+        </p>
+        <div class="grid">
+          <div class="card col-6 tilt">
+            <div class="card-title">What I do</div>
+            <p class="card-desc">UI architecture, modular CSS, micro-interactions, performance tuning, and relentless polish.</p>
+          </div>
+          <div class="card col-6 tilt">
+            <div class="card-title">Stack</div>
+            <p class="card-desc">HTML/CSS, JS/TS, React, GSAP, WebGL vibes, and a library of custom neon &amp; glitch systems.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" aria-label="Projects and gaming highlights" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Projects / Gaming highlights</h2>
+      <p class="section-sub">Loot-box hovers, tilt, and a dash of shine. Hover or tap to feel the menu vibes.</p>
+
+      <div class="grid">
+        <article class="card col-4 tilt">
+          <div class="card-media">
+            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop" alt="Cyberpunk dashboard project preview">
+            <span class="shine" aria-hidden="true"></span>
+            <div class="loot-edge" aria-hidden="true"></div>
+          </div>
+          <h3 class="card-title">Neon HUD Dashboard</h3>
+          <p class="card-desc">Reactive game-menu dashboard with XP meters, party list, and animated grid.</p>
+          <div class="card-actions">
+            <a class="btn-ghost" href="#" target="_blank" rel="noopener">Live</a>
+            <a class="btn-ghost" href="#" target="_blank" rel="noopener">Code</a>
+          </div>
+        </article>
+
+        <article class="card col-4 tilt">
+          <div class="card-media">
+            <video src="https://cdn.coverr.co/videos/coverr-night-drive-3712/1080p.mp4" autoplay muted loop playsinline aria-label="Gameplay clip"></video>
+            <span class="shine" aria-hidden="true"></span>
+            <div class="loot-edge" aria-hidden="true"></div>
+          </div>
+          <h3 class="card-title">Night Drive Clip</h3>
+          <p class="card-desc">Moody synth run with UI overlay, parallax, and bloom.</p>
+          <div class="card-actions">
+            <a class="btn-ghost" href="#" target="_blank" rel="noopener">Watch</a>
+          </div>
+        </article>
+
+        <article class="card col-4 tilt">
+          <div class="card-media">
+            <img src="https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?q=80&w=1200&auto=format&fit=crop" alt="Pixel art landing page">
+            <span class="shine" aria-hidden="true"></span>
+            <div class="loot-edge" aria-hidden="true"></div>
+          </div>
+          <h3 class="card-title">Pixel Landing</h3>
+          <p class="card-desc">Glitch logo, CRT shaders, and a breathing pixel grid.</p>
+          <div class="card-actions">
+            <a class="btn-ghost" href="#" target="_blank" rel="noopener">Live</a>
+            <a class="btn-ghost" href="#" target="_blank" rel="noopener">Code</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section aria-label="Skills" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Skills / Loadout</h2>
+      <p class="section-sub">Player card with stats. XP-style meters fill as they enter view.</p>
+
+      <div class="grid">
+        <div class="col-6">
+          <div class="stat">
+            <div class="stat-head"><span>UI Engineering</span><span>98</span></div>
+            <div class="meter" data-value="98"><span></span></div>
+          </div>
+          <div class="stat">
+            <div class="stat-head"><span>CSS Wizardry</span><span>99</span></div>
+            <div class="meter" data-value="99"><span></span></div>
+          </div>
+          <div class="stat">
+            <div class="stat-head"><span>Motion &amp; Micro FX</span><span>94</span></div>
+            <div class="meter" data-value="94"><span></span></div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="stat">
+            <div class="stat-head"><span>React/SPA Craft</span><span>92</span></div>
+            <div class="meter" data-value="92"><span></span></div>
+          </div>
+          <div class="stat">
+            <div class="stat-head"><span>Design Systems</span><span>96</span></div>
+            <div class="meter" data-value="96"><span></span></div>
+          </div>
+          <div class="stat">
+            <div class="stat-head"><span>Gaming IQ</span><span>90</span></div>
+            <div class="meter" data-value="90"><span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section aria-label="Gallery and clips" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Gallery / Clips</h2>
+      <p class="section-sub">Swipe/drag the slider. Tap to open lightbox. Arrows navigate.</p>
+
+      <div class="slider">
+        <div class="track" id="track">
+          <div class="slide" data-type="image" data-src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=1600&auto=format&fit=crop" aria-label="Neon street">
+            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=900&auto=format&fit=crop" alt="Neon street" loading="lazy">
+          </div>
+          <div class="slide" data-type="image" data-src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop" aria-label="Code setup">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=900&auto=format&fit=crop" alt="Code setup" loading="lazy">
+          </div>
+          <div class="slide" data-type="video" data-src="https://cdn.coverr.co/videos/coverr-lights-of-the-city-4115/1080p.mp4" aria-label="City lights video">
+            <img src="https://images.unsplash.com/photo-1535016120720-40c646be5580?q=80&w=900&auto=format&fit=crop" alt="City lights video placeholder" loading="lazy">
+          </div>
+          <div class="slide" data-type="image" data-src="https://images.unsplash.com/photo-1604948501466-4e9f1b5c122d?q=80&w=1600&auto=format&fit=crop" aria-label="Controller macro">
+            <img src="https://images.unsplash.com/photo-1604948501466-4e9f1b5c122d?q=80&w=900&auto=format&fit=crop" alt="Controller macro" loading="lazy">
+          </div>
+          <div class="slide" data-type="image" data-src="https://images.unsplash.com/photo-1518005068251-37900150dfca?q=80&w=1600&auto=format&fit=crop" aria-label="Arcade hall">
+            <img src="https://images.unsplash.com/photo-1518005068251-37900150dfca?q=80&w=900&auto=format&fit=crop" alt="Arcade hall" loading="lazy">
+          </div>
+          <div class="slide" data-type="image" data-src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1600&auto=format&fit=crop" aria-label="Esports arena">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=900&auto=format&fit=crop" alt="Esports arena" loading="lazy">
+          </div>
+        </div>
+
+        <div class="nav">
+          <button class="prev" id="prev" data-testid="slider-prev" aria-label="Previous">‹</button>
+          <button class="next" id="next" data-testid="slider-next" aria-label="Next">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAMES -->
+  <section aria-label="Games I play" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Games I play</h2>
+      <p class="section-sub">Cards include game logos, IGN/UID, and quick badges for instant recognition.</p>
+
+      <div class="grid">
+        <div class="col-6 card">
+          <div class="game-card">
+            <div class="game-logo">Va</div>
+            <div class="game-meta">
+              <div class="card-title">Valorant</div>
+              <small>IGN: DEV#N3ON • Role: Duelist</small>
+            </div>
+            <span class="badge">Valorant</span>
+          </div>
+        </div>
+        <div class="col-6 card">
+          <div class="game-card">
+            <div class="game-logo">PB</div>
+            <div class="game-meta">
+              <div class="card-title">PUBG Mobile</div>
+              <small>UID: 123456789 • Rank: Ace</small>
+            </div>
+            <span class="badge">PUBG</span>
+          </div>
+        </div>
+        <div class="col-6 card">
+          <div class="game-card">
+            <div class="game-logo">CD</div>
+            <div class="game-meta">
+              <div class="card-title">Call of Duty</div>
+              <small>IGN: DEV • Role: Slayer</small>
+            </div>
+            <span class="badge">COD</span>
+          </div>
+        </div>
+        <div class="col-6 card">
+          <div class="game-card">
+            <div class="game-logo">GT</div>
+            <div class="game-meta">
+              <div class="card-title">GTA Online</div>
+              <small>IGN: DEV • Crew: N3ON</small>
+            </div>
+            <span class="badge">GTA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUESTBOOK -->
+  <section id="guestbook" aria-label="Guestbook" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Signal Wall</h2>
+      <p class="section-sub">Leave a neon signal for the next traveler. Entries stream live from the server.</p>
+
+      <form id="guestForm" class="guest-form" data-testid="guestbook-form">
+        <div class="guest-row">
+          <input id="guestHandle" class="input" maxlength="32" placeholder="@handle" required data-testid="guestbook-handle" />
+          <select id="guestColor" class="input select" data-testid="guestbook-color">
+            <option value="cyan">cyan</option>
+            <option value="magenta">magenta</option>
+            <option value="violet">violet</option>
+            <option value="green">green</option>
+            <option value="yellow">yellow</option>
+            <option value="red">red</option>
+          </select>
+        </div>
+        <textarea id="guestMessage" class="input" maxlength="240" placeholder="Broadcast your signal..." required data-testid="guestbook-message"></textarea>
+        <div class="btn-row">
+          <button class="btn btn-primary" type="submit" data-testid="guestbook-submit">Broadcast</button>
+          <span class="guest-count"><span id="guestCount">0</span> signals in orbit</span>
+        </div>
+      </form>
+
+      <div id="guestWall" class="guest-wall" data-testid="guestbook-wall"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section aria-label="Contact form" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Join the squad</h2>
+      <p class="section-sub">Lobby vibes: drop a message or ping me on socials. I'll reach back with a game plan.</p>
+
+      <form id="contactForm" data-testid="contact-form">
+        <div>
+          <label for="name">Name</label>
+          <input id="name" name="name" class="input" placeholder="Your name" required data-testid="contact-name" />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" class="input" placeholder="you@example.com" required data-testid="contact-email" />
+        </div>
+        <div>
+          <label for="message">Message</label>
+          <textarea id="message" name="message" class="input" placeholder="Tell me about your idea, mission, or party invite..." required data-testid="contact-message"></textarea>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" type="submit" data-testid="contact-submit">Send message</button>
+          <a class="btn btn-discord" href="#" target="_blank" rel="noopener">Discord</a>
+          <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">Twitter</a>
+          <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">Instagram</a>
+        </div>
+        <p id="contactStatus" class="contact-status" data-testid="contact-status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- TERMINAL -->
+  <section id="terminal" aria-label="Cyber Terminal Console" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Terminal Console</h2>
+      <p class="section-sub">Type <code>help</code> to see every command. Unlock achievements by exploring.</p>
+      <div class="terminal-screen">
+        <div class="terminal-output" id="terminalOutput" data-testid="terminal-output">
+          <p>&gt; Initializing system...</p>
+          <p>&gt; Loading modules...</p>
+          <p>&gt; Welcome, DEVIL.</p>
+          <p>&gt; Type <code>help</code> to list available commands.</p>
+        </div>
+        <form class="terminal-input" id="terminalForm">
+          <span class="prompt">&gt;</span>
+          <input type="text" id="command" name="command" placeholder="Enter command..." autocomplete="off" data-testid="terminal-input" />
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <p class="footnote">© <span id="year"></span> Dev — Built with neon and precision.</p>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Media preview">
+    <div class="lightbox-content" id="lightboxContent">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close preview">Close</button>
+    </div>
+  </div>
+
+  <script src="%PUBLIC_URL%/script.js"></script>
+</body>
+</html>
