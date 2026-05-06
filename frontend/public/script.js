@@ -242,7 +242,10 @@
   const slides = [...track.querySelectorAll('.slide')];
   slides.forEach((s, i) => {
     s.dataset.idx = i;
-    s.addEventListener('click', () => openLightbox(s.dataset.type, s.dataset.src));
+    s.addEventListener('click', (e) => {
+      if (track._wasDragging) { track._wasDragging = false; return; }
+      openLightbox(s.dataset.type, s.dataset.src);
+    });
   });
   const btnPrev = $('#prev'); const btnNext = $('#next');
   function slideBy(dir = 1) {
@@ -252,11 +255,25 @@
   }
   btnPrev.addEventListener('click', () => slideBy(-1));
   btnNext.addEventListener('click', () => slideBy(1));
-  let isDown = false, startX = 0, scrollLeft = 0;
-  track.addEventListener('pointerdown', (e) => { isDown = true; startX = e.clientX; scrollLeft = track.scrollLeft; track.setPointerCapture(e.pointerId); });
-  track.addEventListener('pointermove', (e) => { if (!isDown) return; const dx = e.clientX - startX; track.scrollLeft = scrollLeft - dx; });
-  track.addEventListener('pointerup', () => { isDown = false; });
-  track.addEventListener('pointercancel', () => { isDown = false; });
+  // Only capture pointer after a movement threshold so plain clicks always pass through to slides
+  let isDown = false, startX = 0, scrollLeft = 0, captured = false, pointerId = null;
+  const DRAG_THRESHOLD = 5;
+  track.addEventListener('pointerdown', (e) => {
+    isDown = true; captured = false; track._wasDragging = false;
+    startX = e.clientX; scrollLeft = track.scrollLeft; pointerId = e.pointerId;
+  });
+  track.addEventListener('pointermove', (e) => {
+    if (!isDown) return;
+    const dx = e.clientX - startX;
+    if (!captured && Math.abs(dx) > DRAG_THRESHOLD) {
+      captured = true; track._wasDragging = true;
+      try { track.setPointerCapture(pointerId); } catch {}
+    }
+    if (captured) track.scrollLeft = scrollLeft - dx;
+  });
+  function endDrag() { isDown = false; captured = false; pointerId = null; }
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
 
   /* ----------------- TILT ----------------- */
   const tilts = document.querySelectorAll('.tilt');
